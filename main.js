@@ -5,28 +5,65 @@ var inquirer = require('inquirer');
 // enables us the read or write files on our server
 var fs = require('fs');
 
+/*
 var Word = require("./game.js");
+exports.currentWord = Word.game;
+*/
+var Game = require("./game.js");
+exports.currentWord = Game.game;
+
+
 //console.log(Word.game);
+var unguessedWord = '';
 
-var length = Word.game.length;
+var Letter = require("./letter.js");
+var getLetters = Letter.Letter();
+console.log("Letter: " + getLetters);
 
+var Word = require("./word.js");
+//var getWord = Word();
+var getWord = Word.Word();
+
+console.log("Word: " + getWord);
+
+//var isIt = Word.checkWordForLetter('e');
+//console.log('IsIt?' + isIt);
+
+/*
 var unguessedWord = '';
 for(var i = 0; i < length; i++){
 	unguessedWord += '_ ';  // example: miami would be _ _ _ _ _
 }
-console.log(unguessedWord);
+*/
+var let = '';
+var count = 10; // 10 guesses
+do{
+	console.log(unguessedWord);
+	inquirer.prompt([{
 
-inquirer.prompt([{
+		name: "letter",
+		message:"Guess a letter"
+	}
+	]).then(function(answer){ 
+		// changed let to var
+		let = answer.letter;
+		console.log(let);
+		let.printInfo();
+	});
 
-	name: "letter",
-	message:"Guess a letter"
+	//exports.currentLetter = answer.letter;
+	//exports.unguessedWord = unguessedWord;
+    
+	if(Word.checkWordForLetter(let)){
+		unguessedWord = Letter.updateUnguessedLetters(let);
+	}
+
+	//unguessedWord = Game.game;
+	count--;//decrement count as they have used up one of their guesses
 }
-]).then(function(answer){
-	console.log(answer.letter);
-});
+while( (unguessedWord != Game.game) && (count > 0) );
 
 
-exports.currentWord = Word.game;
 
 /*
 var Letter = require("./letter.js");
