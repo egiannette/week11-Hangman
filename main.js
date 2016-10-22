@@ -46,9 +46,9 @@ do{
 	}
 	]).then(function(answer){ 
 		// changed let to var
-		let = answer.letter;
+		var let = answer.letter;
 		console.log(let);
-		let.printInfo();
+		// var.printInfo();
 	});
 
 	//exports.currentLetter = answer.letter;
